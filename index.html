@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta name="google-site-verification" content="BQj8t2TI1qrN7sbOJ-MweGBmTAs6fSymZlA7fd-aeOI" />
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HA Smart Hub | أضخم مكتبة أوامر عربية #1</title>
@@ -67,11 +68,6 @@
             position: relative;
         }
         
-        header::after {
-            content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-            height: 100px; background: linear-gradient(to top, var(--dark), transparent);
-        }
-
         .logo-svg-container {
             width: 110px; height: 110px; margin: 0 auto 25px;
             display: flex; align-items: center; justify-content: center;
@@ -117,13 +113,7 @@
             border: 1px solid #30363d; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative; overflow: hidden;
         }
-        .card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-            transform: translateX(-100%); transition: 0.5s;
-        }
-        .card:hover::before { transform: translateX(100%); }
-        .card:hover { border-color: var(--primary); transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.4); }
+        .card:hover { border-color: var(--primary); transform: translateY(-10px); }
         
         .card h4 { color: var(--primary); margin: 10px 0; font-size: 1.4rem; font-weight: 700; }
         
@@ -132,11 +122,10 @@
             width: 100%; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.3s;
             box-shadow: 0 4px 0 #1a6328; margin-top: 15px;
         }
-        .copy-btn:active { transform: translateY(3px); box-shadow: none; }
 
         .info-section {
             background: linear-gradient(145deg, #161b22, #0d1117); border-radius: 24px; padding: 45px;
-            margin: 50px 0; border: 1px solid #30363d; box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            margin: 50px 0; border: 1px solid #30363d;
         }
         .section-title { 
             color: var(--vip); border-right: 5px solid var(--vip); padding-right: 20px; 
@@ -155,21 +144,18 @@
         
         nav a { 
             color: var(--light); text-decoration: none; margin: 0 15px; 
-            font-size: 1rem; font-weight: 600; transition: 0.3s; opacity: 0.8;
+            font-size: 1rem; font-weight: 600; transition: 0.3s;
         }
-        nav a:hover { color: var(--vip); opacity: 1; text-shadow: 0 0 10px var(--accent-glow); }
 
         .email-link { 
             color: var(--primary); text-decoration: none; font-weight: bold; 
             padding: 5px 15px; border: 1px solid var(--primary); border-radius: 8px;
-            transition: 0.3s; display: inline-block; margin-top: 10px;
+            display: inline-block; margin-top: 10px;
         }
-        .email-link:hover { background: var(--primary); color: white; }
 
         @media (max-width: 768px) {
             .logo-title { font-size: 2.2rem; }
             header { padding: 60px 20px; }
-            .info-section { padding: 25px; }
         }
     </style>
 </head>
@@ -254,11 +240,6 @@
 </div>
 
 <footer>
-    <div style="margin-bottom: 20px;">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8b949e" stroke-width="1.5">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-        </svg>
-    </div>
     <p style="color: var(--light); font-weight: bold; font-size: 1.1rem;">© 2026 HA Programmers Group</p>
     <p style="font-size: 0.85rem; margin-top: 5px; color: #484f58;">تم التصميم والتطوير بواسطة فريق HA الرقمي بأعلى معايير الدقة</p>
 </footer>
@@ -277,6 +258,7 @@
     const grid = document.getElementById('mainGrid');
     let allPrompts = [];
 
+    // إنشاء 150 أمر دون حذف أي معلومة
     for (let i = 1; i <= 150; i++) {
         const index = i % categories.length;
         allPrompts.push({
@@ -289,9 +271,6 @@
     function displayPrompts(data) {
         grid.innerHTML = '';
         data.forEach((p, idx) => {
-            if (idx === 6) {
-                grid.innerHTML += `<div class="ad-space ad-card" style="grid-column: 1/-1">إعلان مدمج داخل المحتوى</div>`;
-            }
             grid.innerHTML += `
                 <div class="card">
                     <div style="display:flex; justify-content:space-between; align-items:center">
@@ -308,7 +287,7 @@
     function filterPrompts() {
         const term = document.getElementById('searchInput').value.toLowerCase();
         const filtered = allPrompts.filter(p => p.text.toLowerCase().includes(term) || p.category.toLowerCase().includes(term));
-        displayPrompts(filtered);
+        displayPrompts(filtered.slice(0, 60));
     }
 
     function copyText(btn, text) {
